@@ -1,0 +1,44 @@
+server_name: "matrix.domen.com"
+pid_file: /data/homeserver.pid
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: password
+    dbname: synapse
+    host: db
+    cp_min: 5
+    cp_max: 10
+
+log_config: "/data/matrix.domen.com.log.config"
+media_store_path: /data/media_store
+registration_shared_secret: "..."
+report_stats: true
+macaroon_secret_key: "..."
+form_secret: "..."
+signing_key_path: "/data/matrix.domen.com.signing.key"
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+
+redis:
+  enabled: true
+  host: synapse-redis
+  port: 6379
+
+
+# vim:ft=yaml
+turn_uris: ["turn:matrix.domen.com:3488?transport=udp", "turn:matrix.domen.com:3488?transport=tcp"]
+turn_shared_secret: "secret"
+turn_user_lifetime: 86400000
+turn_allow_guests: True
+turn_realm: "matrix.domen.com"
